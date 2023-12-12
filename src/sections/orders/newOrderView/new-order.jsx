@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack';
 // import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 // import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
 // import TableContainer from '@mui/material/TableContainer';
 // import TablePagination from '@mui/material/TablePagination';
 
@@ -98,14 +97,14 @@ export default function OrdersPage() {
   // const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <Container maxWidth="sm">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">New Order</Typography>
+        {/* <Typography variant="h4">New Order</Typography> */}
       </Stack>
       <Card>
-        <OrderForm/>
+        <OrderForm />
       </Card>
-{/* 
+      {/* 
       <Card>
         <UserTableToolbar
           numSelected={selected.length}
