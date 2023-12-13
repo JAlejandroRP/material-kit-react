@@ -15,6 +15,8 @@ import Container from '@mui/material/Container';
 
 // import Iconify from 'src/components/iconify';
 // import Scrollbar from 'src/components/scrollbar';
+import { Typography } from '@mui/material';
+
 import OrderForm from '../order-form';
 
 // import TableNoData from '../table-no-data';
@@ -97,9 +99,9 @@ export default function OrdersPage() {
   // const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        {/* <Typography variant="h4">New Order</Typography> */}
+        <Typography variant="h4">New Order</Typography>
       </Stack>
       <Card>
         <OrderForm />
