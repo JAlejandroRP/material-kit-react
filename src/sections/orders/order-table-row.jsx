@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+import { Chip, Stack } from '@mui/material';
+// import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -11,21 +11,37 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({
+export default function OrderTableRow({
   selected,
+  createdAt,
   name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
+  phone,
+  address,
+  weight,
+  total,
   status,
   handleClick,
 }) {
+
+  const statusColor = (orderStatus) => {
+    switch (orderStatus) {
+      case 'received':
+        return 'primary'
+      case 'in progress':
+        return 'secondary'
+      case 'completed':
+        return 'info'
+      case 'delivered':
+        return 'success'
+      default:
+        return 'error'
+    }
+  }
+
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -43,23 +59,25 @@ export default function UserTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
+        <TableCell component="th" padding="none">
+          <Stack>
+            {/* <Avatar alt={name} src={phone} /> */}
+            <Typography variant="subtitle2" > {name} </Typography>
+            <Typography variant='caption'>{createdAt}</Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{address}</TableCell>
 
-        <TableCell>{role}</TableCell>
+        <TableCell>{phone}</TableCell>
 
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell>{weight}</TableCell>
+
+        <TableCell>{total} $</TableCell>
+
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Chip label={status} color={statusColor(status)} variant='outlined' size='small' />
         </TableCell>
 
         <TableCell align="right">
@@ -93,13 +111,14 @@ export default function UserTableRow({
   );
 }
 
-UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+OrderTableRow.propTypes = {
+  weight: PropTypes.any,
+  total: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
   name: PropTypes.any,
-  role: PropTypes.any,
+  address: PropTypes.any,
+  phone: PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
+  status: PropTypes.any,
+  createdAt: PropTypes.any,
 };
