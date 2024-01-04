@@ -9,13 +9,14 @@ import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export default function OrderTableRow({
+  id,
   selected,
   createdAt,
   name,
@@ -44,9 +45,9 @@ export default function OrderTableRow({
 
   const [open, setOpen] = useState(null);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+  // const handleOpenMenu = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
   const handleCloseMenu = () => {
     setOpen(null);
@@ -58,6 +59,8 @@ export default function OrderTableRow({
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
+
+        <TableCell>{id}</TableCell>
 
         <TableCell component="th" padding="none">
           <Stack>
@@ -80,11 +83,11 @@ export default function OrderTableRow({
           <Chip label={status} color={statusColor(status)} variant='outlined' size='small' />
         </TableCell>
 
-        <TableCell align="right">
+        {/* <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
-        </TableCell>
+        </TableCell> */}
       </TableRow>
 
       <Popover
@@ -121,4 +124,5 @@ OrderTableRow.propTypes = {
   selected: PropTypes.any,
   status: PropTypes.any,
   createdAt: PropTypes.any,
+  id: PropTypes.any,
 };

@@ -61,18 +61,18 @@ export default function OrdersPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = orders.map((n) => n.name);
+      const newSelecteds = orders.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -123,6 +123,7 @@ export default function OrdersPage() {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          selected={selected}
         />
 
         <Scrollbar>
@@ -136,13 +137,14 @@ export default function OrdersPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'address', label: 'Address' },
-                  { id: 'phone', label: 'Phone' },
-                  { id: 'weight', label: 'Weight' },
-                  { id: 'total', label: 'total', align: 'center' },
-                  { id: 'status', label: 'Status', align: 'center' },
-                  { id: '' },
+                  { id: 'id', label: 'Order ID', sortable: true },
+                  { id: 'name', label: 'Name', sortable: true },
+                  { id: 'address', label: 'Address', sortable: true },
+                  { id: 'phone', label: 'Phone', sortable: true },
+                  { id: 'weight', label: 'Weight', sortable: true },
+                  { id: 'total', label: 'total', align: 'center', sortable: true },
+                  { id: 'status', label: 'Status', align: 'center', sortable: true },
+                  // { id: 'actions', label: 'Actions', align: 'center', sortable: false },
                 ]}
               />
               <TableBody>
@@ -151,6 +153,7 @@ export default function OrdersPage() {
                   .map((row) => (
                     <OrderTableRow
                       key={row.id}
+                      id={row.id}
                       createdAt={row.createdAt}
                       name={row.name}
                       address={row.address}
@@ -158,8 +161,8 @@ export default function OrdersPage() {
                       weight={row.weight}
                       total={Number(row.total).toFixed(2)}
                       status={row.status}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      selected={selected.indexOf(row.id) !== -1}
+                      handleClick={(event) => handleClick(event, row.id)}
                     />
                   ))}
 

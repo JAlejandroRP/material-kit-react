@@ -43,10 +43,10 @@ export default function OrderTableHead({
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}
           >
             <TableSortLabel
-              hideSortIcon
+              // hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={onSort(headCell.id)}
+              onClick={headCell.sortable ? onSort(headCell.id): undefined}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
