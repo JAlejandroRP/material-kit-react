@@ -89,20 +89,36 @@ export const insertOrder = async (order) => {
 }
 
 /**
- * Order ID to update
- * @param {Number} orderId 
+ * Orders to update
+ * @param {Order[]} orders
+ * @param {String} status new status of the orders "received, in progress, completed, delivered"
  */
-export const updateOrder = async (orderId) => {
-  const order = await getOder(orderId)
+export const updateOrder = async ({ orders, status }) => {
+  if (!orders) throw new Error('No order object received')
+  if (!status) throw new Error('No status received')
 
+  const updatePromises = orders.map(order => putOrder({
+    ...order,
+    status
+  }))
+
+  const updatedOrders = await Promise.allSettled(updatePromises)
+  console.log(updatedOrders);
+
+  return updatedOrders.map(order => ({
+    ...order.value.data.attributes,
+    id: order.value.data.id
+  }))
+}
+
+const putOrder = async (order) => {
   const body = JSON.stringify({
     data: {
       ...order,
-      status: "in progress"
     }
   })
 
-  const response = await fetch(`${API_URL}/${orderId}`, {
+  const response = await fetch(`${API_URL}/${order.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

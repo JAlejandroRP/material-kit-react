@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form"
 
 import { Stack, Button, TextField, InputAdornment, } from "@mui/material";
 
-import { insertOrder } from "../../api/order.ts";
+import { insertOrder } from "../../api/order";
 
 const COST_PER_KG = 12
 

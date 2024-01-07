@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // import { Stack } from '@mui/material';
@@ -9,7 +10,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 // import AutorenewIcon from '@mui/icons-material/Autorenew';
 
-import { Stack } from '@mui/material';
+import { Alert, Stack } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
 
 import { updateOrder } from 'src/api/order';
 
@@ -17,21 +19,82 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableToolbar({ numSelected, selected, filterName, onFilterName }) {
-  const handleDelete = () => {
-    // console.log(selected);
+export default function UserTableToolbar({ numSelected, selected, filterName, onFilterName, orders, setOrders }) {
+  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleDelete = async () => {
+    // try {
+    //   await updateOrder({
+    //     orderId: selected,
+    //     status: 'in progress'
+    //   })
+    // } catch (error) {
+    //   setErrorMessage(error.message || error)
+    //   setOpen(true)
+    // }
   }
 
-  const handleMarkAsCompleted = () => {
-    // console.log(selected);
+  const setOrdersHook = (newOrders) => {
+    setOrders(prevOrders =>
+      prevOrders.map(prevOrder =>
+        selected.includes(prevOrder.id) ?
+          newOrders.find(e => e.id === prevOrder.id) :
+          prevOrder))
+  }
 
+  const filterSelectedOrders = () =>
+    orders.filter(order => selected.includes(order.id))
+
+  const handleMarkAsCompleted = async () => {
+    try {
+      const selectedOrders = filterSelectedOrders()
+      const updatedOrders = await updateOrder({
+        orders: selectedOrders,
+        status: 'completed'
+      })
+
+      setOrdersHook(updatedOrders)
+    } catch (error) {
+      setErrorMessage(error.message || error)
+      setOpen(true)
+    }
   }
   const handleMarkAsInProgress = async () => {
-    console.log(selected);
-    await updateOrder(selected)
+    try {
+      const selectedOrders = filterSelectedOrders()
+      const updatedOrders = await updateOrder({
+        orders: selectedOrders,
+        status: 'in progress'
+      })
+
+      setOrdersHook(updatedOrders)
+    } catch (error) {
+      setErrorMessage(error.message || error)
+      setOpen(true)
+    }
   }
-  const handleMarkAsDelivered = () => {
-    // console.log(selected);
+  const handleMarkAsDelivered = async () => {
+    try {
+      const selectedOrders = filterSelectedOrders()
+      const updatedOrders = await updateOrder({
+        orders: selectedOrders,
+        status: 'delivered'
+      })
+
+      setOrdersHook(updatedOrders)
+    } catch (error) {
+      setErrorMessage(error.message || error)
+      setOpen(true)
+    }
   }
 
   return (
@@ -97,7 +160,15 @@ export default function UserTableToolbar({ numSelected, selected, filterName, on
           }
         />
       )}
-
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Toolbar>
   );
 }
@@ -107,4 +178,6 @@ UserTableToolbar.propTypes = {
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
   selected: PropTypes.any,
+  orders: PropTypes.array,
+  setOrders: PropTypes.func,
 };

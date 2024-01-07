@@ -80,7 +80,7 @@ export default function OrderTableRow({
 
 
         <TableCell>
-          <Chip label={status} color={statusColor(status)} variant='outlined' size='small' />
+          <Chip label={status} color={statusColor(status)} variant='filled' size='small' />
         </TableCell>
 
         {/* <TableCell align="right">

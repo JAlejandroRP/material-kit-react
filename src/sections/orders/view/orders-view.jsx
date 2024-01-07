@@ -125,6 +125,8 @@ export default function OrdersPage() {
           filterName={filterName}
           onFilterName={handleFilterByName}
           selected={selected}
+          orders={orders}
+          setOrders={setOrders}
         />
 
         <Scrollbar>
