@@ -17,12 +17,13 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import TableNoData from '../table-no-data';
+import { getOders } from '../../../api/order';
 import OrderTableRow from '../order-table-row';
 import OrderTableHead from '../order-table-head';
 import TableEmptyRows from '../table-empty-rows';
-import { getOders } from '../../../api/order.ts';
 import UserTableToolbar from '../order-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+
 
 
 // ----------------------------------------------------------------------

@@ -11,23 +11,27 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { Stack } from '@mui/material';
 
+import { updateOrder } from 'src/api/order';
+
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableToolbar({ numSelected, selected, filterName, onFilterName }) {
   const handleDelete = () => {
-    console.log(selected);
+    // console.log(selected);
   }
 
   const handleMarkAsCompleted = () => {
-    console.log(selected);
+    // console.log(selected);
+
   }
-  const handleMarkAsInProgress = () => {
+  const handleMarkAsInProgress = async () => {
     console.log(selected);
+    await updateOrder(selected)
   }
   const handleMarkAsDelivered = () => {
-    console.log(selected);
+    // console.log(selected);
   }
 
   return (
@@ -43,26 +47,6 @@ export default function UserTableToolbar({ numSelected, selected, filterName, on
         }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <OutlinedInput
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Search order..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify
-                icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          }
-        />
-      )}
-
       {numSelected > 0 ? (
         <Stack direction='row'>
           <Tooltip title="Mark as in progress">
@@ -93,6 +77,27 @@ export default function UserTableToolbar({ numSelected, selected, filterName, on
           </IconButton>
         </Tooltip>
       )}
+
+      {numSelected > 0 ? (
+        <Typography component="div" variant="subtitle1">
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <OutlinedInput
+          value={filterName}
+          onChange={onFilterName}
+          placeholder="Search order..."
+          startAdornment={
+            <InputAdornment position="start">
+              <Iconify
+                icon="eva:search-fill"
+                sx={{ color: 'text.disabled', width: 20, height: 20 }}
+              />
+            </InputAdornment>
+          }
+        />
+      )}
+
     </Toolbar>
   );
 }
